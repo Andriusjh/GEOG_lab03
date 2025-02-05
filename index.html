@@ -80,13 +80,13 @@
         let map = new mapboxgl.Map({
             container: 'map', // container ID
             style: 'mapbox://styles/mapbox/outdoors-v12', // style URL
-            zoom: 5.5, // starting zoom
-            center: [-120, 47] // starting center
+            zoom: 8, // starting zoom
+            center: [-122, 47.6] // starting center
         });
         
         async function geojsonFetch() {
             let response, earthquakes, japan, table;
-            response = await fetch('assets/Facility.geojson');
+            response = await fetch('assets/Facilitysmall.geojson');
             earthquakes = await response.json();
             response = await fetch('assets/WA_County_Boundaries.geojson');
             japan = await response.json();
@@ -146,27 +146,28 @@
         let btn = document.getElementsByTagName("button")[1];
         btn.addEventListener('click', sortTable);
         function sortTable(e) {
-        let table, rows, switching, i, x, y, shouldSwitch;
-        table = document.getElementsByTagName("table")[0];
-        switching = true;
-        while (switching) {
-            switching = false;
-            rows = table.rows;
-            for (i = 1; i < (rows.length - 1); i++) {
-                shouldSwitch = false;
-                x = parseFloat(rows[i].getElementsByTagName("td")[1].innerHTML);
-                y = parseFloat(rows[i + 1].getElementsByTagName("td")[1].innerHTML);
-                if (x < y) {
-                    shouldSwitch = true;
-                    break;
+            let table, rows, switching, i, x, y, shouldSwitch;
+            table = document.getElementsByTagName("table")[0];
+            switching = true;
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    console.log(i,i+1)
+                    shouldSwitch = false;
+                    x = parseFloat(rows[i].getElementsByTagName("td")[1].innerHTML);
+                    y = parseFloat(rows[i + 1].getElementsByTagName("td")[1].innerHTML);
+                    if (x < y) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
                 }
             }
-            if (shouldSwitch) {
-                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                switching = true;
-            }
         }
-    }
     </script>
  </body>  
 <html> 
